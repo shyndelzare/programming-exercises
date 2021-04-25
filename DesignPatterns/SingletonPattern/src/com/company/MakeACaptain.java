@@ -1,22 +1,17 @@
 package com.company;
 
 public class MakeACaptain {
-
-    //private static MakeACaptain _captain = new MakeACaptain(); /* Eager initialization but class is always instantiated*/
-    private static MakeACaptain captain;
-
     private MakeACaptain() {}
 
-    //public static synchronized MakeACaptain getCaptain() /* Performance cost with synchronized method */
     public static MakeACaptain getCaptain() {
-        //lazy initialization
-        if (captain == null) {
-            captain = new MakeACaptain();
-            System.out.println("New captain selected.");
-        } else {
-            System.out.println("You already have a captain");
-            System.out.println("Send him/her for the toss.");
-        }
-        return captain;
+        return SingletonHelper.captain;
+    }
+
+    /* When the singleton class is loaded, inner class is not loaded and hence doesn't create object when loading the class.
+     * Inner class is created only when getInstance() method is called.
+     * So it may seem like eager initialization but it is lazy initialization.
+     * This is the most widely used approach as it doesn't use synchronization. */
+    private static class SingletonHelper {
+        private static final MakeACaptain captain = new MakeACaptain();
     }
 }
